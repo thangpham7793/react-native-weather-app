@@ -30,6 +30,7 @@ export default function WeatherInfoView(props: WeatherInfoViewProps) {
 const styles = StyleSheet.create({
   view: {
     alignItems: "center",
+    width: "100%",
   },
   description: {
     textTransform: "capitalize",

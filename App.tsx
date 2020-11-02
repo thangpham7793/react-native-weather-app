@@ -9,7 +9,7 @@ import UnitsPicker from "./components/UnitsPicker";
 
 export default function App() {
   //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string | null>();
   const [currentWeather, setCurrentWeather] = useState<any>();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>(UnitSystem.metric);
 
@@ -19,6 +19,7 @@ export default function App() {
   }, [unitSystem]);
 
   async function load() {
+    setCurrentWeather(null);
     try {
       let { status } = await Location.requestPermissionsAsync();
       if (status === "granted") {
@@ -49,35 +50,27 @@ export default function App() {
     }
   }
 
-  function onUnitSystemChanged(itemValue: React.ReactText, itemIndex: number) {
-    setUnitSystem(itemValue as UnitSystem);
-  }
-
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
+      <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
       <View style={styles.main}>
-        <UnitsPicker
-          unitSystem={unitSystem}
-          onValueChange={onUnitSystemChanged}
-        />
-        <Text>
-          {(!errorMessage && !currentWeather && (
-            <Text>Fetching Weather Data</Text>
-          )) ||
-            (errorMessage ? (
-              <Text>{errorMessage}</Text>
-            ) : (
+        {(!errorMessage && !currentWeather && (
+          <Text>Fetching Weather Data</Text>
+        )) ||
+          (errorMessage ? (
+            <Text>{errorMessage}</Text>
+          ) : (
+            <>
               <WeatherInfoView
                 unitSystem={unitSystem}
                 weatherInfo={currentWeather.weather[0]}
                 mainInfo={currentWeather.main}
                 name={currentWeather.name}
               />
-            ))}
-        </Text>
+            </>
+          ))}
       </View>
-
-      <StatusBar style="auto" />
     </View>
   );
 }
@@ -85,7 +78,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -93,5 +85,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
 });

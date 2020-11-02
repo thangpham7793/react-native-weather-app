@@ -1,11 +1,82 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import * as Location from "expo-location";
+import WeatherService from "./WeatherService";
+import { UnitSystem } from "./types";
+import WeatherInfoView from "./components/WeatherInfoView";
+import UnitsPicker from "./components/UnitsPicker";
 
 export default function App() {
+  //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [currentWeather, setCurrentWeather] = useState<any>();
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(UnitSystem.metric);
+
+  //similar to onInit in Angular
+  useEffect(() => {
+    load();
+  }, [unitSystem]);
+
+  async function load() {
+    try {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status === "granted") {
+        let {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.High,
+        });
+
+        let result = await WeatherService.getWeather(
+          { latitude, longitude },
+          unitSystem
+        );
+
+        if (result) {
+          console.log(result);
+          return setCurrentWeather(result);
+        } else {
+          setErrorMessage(`Service Unavailable`);
+        }
+
+        return;
+      } else {
+        setErrorMessage(`You need to enable location to use this app!`);
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  }
+
+  function onUnitSystemChanged(itemValue: React.ReactText, itemIndex: number) {
+    setUnitSystem(itemValue as UnitSystem);
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <View style={styles.main}>
+        <UnitsPicker
+          unitSystem={unitSystem}
+          onValueChange={onUnitSystemChanged}
+        />
+        <Text>
+          {(!errorMessage && !currentWeather && (
+            <Text>Fetching Weather Data</Text>
+          )) ||
+            (errorMessage ? (
+              <Text>{errorMessage}</Text>
+            ) : (
+              <WeatherInfoView
+                unitSystem={unitSystem}
+                weatherInfo={currentWeather.weather[0]}
+                mainInfo={currentWeather.main}
+                name={currentWeather.name}
+              />
+            ))}
+        </Text>
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +85,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  main: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

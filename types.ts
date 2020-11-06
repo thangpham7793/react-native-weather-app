@@ -37,6 +37,18 @@ export enum UnitSystem {
   "metric" = "metric",
 }
 
+type PRIMARY = "#ff304f" | "black";
+type SECONDARY = "#002651" | "yellow";
+type BORDER = "#dbdbdb";
+type BACKGROUND = "#fff" | "#333";
+
+export type AppColors = {
+  PRIMARY: PRIMARY;
+  SECONDARY: SECONDARY;
+  BORDER: BORDER;
+  BACKGROUND: BACKGROUND;
+};
+
 export enum Colors {
   "PRIMARY" = "#ff304f",
   "SECONDARY" = "#002651",

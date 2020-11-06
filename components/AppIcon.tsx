@@ -1,6 +1,6 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../types";
+import { Palette } from "../types";
 
 export default function AppIcon({
   icon,
@@ -9,7 +9,7 @@ export default function AppIcon({
   icon?: JSX.Element;
   name: string;
   size: number;
-  color: Colors;
+  color: Palette["SECONDARY"];
 }) {
   return <Ionicons {...props} />;
 }

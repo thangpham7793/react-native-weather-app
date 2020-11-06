@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Platform } from "react-native";
 import * as Location from "expo-location";
 import WeatherService from "./WeatherService";
-import { UnitSystem, Colors } from "./types";
+import { ThemeContextProps, UnitSystem } from "./types";
 import WeatherInfoView from "./components/WeatherInfoView";
 import UnitsPicker from "./components/UnitsPicker";
 import Container from "./components/Container";
@@ -11,12 +11,17 @@ import ExtraWeatherInfo from "./components/ExtraWeatherInfo";
 import ReloadButton from "./components/ReloadButton";
 import AppIcon from "./components/AppIcon";
 import AppText from "./components/AppText";
+import { ThemeContext } from "./ThemeContext";
 
 export default function WeatherApp() {
   //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
   const [errorMessage, setErrorMessage] = useState<string | null>();
   const [currentWeather, setCurrentWeather] = useState<any>();
   const [unitSystem, setUnitSystem] = useState<UnitSystem>(UnitSystem.metric);
+
+  const { Colors, onColorModeSwitched } = React.useContext(
+    ThemeContext
+  ) as ThemeContextProps;
 
   //similar to onInit in Angular
   useEffect(() => {
@@ -56,7 +61,12 @@ export default function WeatherApp() {
   }
 
   return (
-    <Container size={12}>
+    <Container
+      size={12}
+      otherViewStyle={{
+        backgroundColor: Colors.BACKGROUND,
+      }}
+    >
       <StatusBar key={"status-bar"} style="auto" />
       <Container key={"upper-wrapper"} direction="row" size={2}>
         <Container

@@ -1,10 +1,16 @@
 import React, { Fragment } from "react";
-import { MainWeatherInfo, WindInfo, Colors, UnitSystem } from "../types";
+import {
+  MainWeatherInfo,
+  WindInfo,
+  UnitSystem,
+  ThemeContextProps,
+} from "../types";
 import AppText from "./AppText";
 import Container from "./Container";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import utils from "../utils";
+import { ThemeContext } from "../ThemeContext";
 
 export default function ExtraWeatherInfo({
   windInfo,
@@ -16,6 +22,8 @@ export default function ExtraWeatherInfo({
   unitSystem: UnitSystem;
 }) {
   let infos: JSX.Element[] = [];
+
+  const { Colors } = React.useContext(ThemeContext) as ThemeContextProps;
 
   if (windInfo) {
     infos = Object.keys(windInfo)
@@ -58,11 +66,6 @@ export default function ExtraWeatherInfo({
   }
 
   return infos.length === 0 ? null : (
-    <Container
-      size={6}
-      direction="column"
-      children={infos}
-      otherViewStyle={{ backgroundColor: Colors.BACKGROUND }}
-    />
+    <Container size={6} direction="column" children={infos} />
   );
 }

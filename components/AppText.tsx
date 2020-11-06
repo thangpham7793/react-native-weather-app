@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextStyle } from "react-native";
-import { Colors } from "../types";
+import { ThemeContext } from "../ThemeContext";
+import { Colors, ThemeContextProps } from "../types";
 
 export default function AppText({
   content,
@@ -11,6 +12,8 @@ export default function AppText({
   content: string;
   type?: "primary" | "secondary";
 }) {
+  const { Colors } = React.useContext(ThemeContext) as ThemeContextProps;
+
   const textStyles: {
     primary: TextStyle;
     secondary: TextStyle;

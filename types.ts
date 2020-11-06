@@ -37,21 +37,35 @@ export enum UnitSystem {
   "metric" = "metric",
 }
 
-type PRIMARY = "#ff304f" | "black";
-type SECONDARY = "#002651" | "yellow";
-type BORDER = "#dbdbdb";
-type BACKGROUND = "#fff" | "#333";
-
-export type AppColors = {
-  PRIMARY: PRIMARY;
-  SECONDARY: SECONDARY;
-  BORDER: BORDER;
-  BACKGROUND: BACKGROUND;
-};
-
 export enum Colors {
   "PRIMARY" = "#ff304f",
   "SECONDARY" = "#002651",
   "BORDER" = "#dbdbdb",
   "BACKGROUND" = "#fff",
 }
+
+export type Palette = {
+  PRIMARY: "#fff" | "#ff304f";
+  SECONDARY: "yellow" | "#002651";
+  BORDER: "#dbdbdb";
+  BACKGROUND: "#fff" | "#111";
+};
+
+export type DARK = {
+  PRIMARY: "#fff";
+  SECONDARY: "yellow";
+  BORDER: "#dbdbdb";
+  BACKGROUND: "#111";
+};
+
+export type LIGHT = {
+  PRIMARY: "#ff304f";
+  SECONDARY: "#002651";
+  BORDER: "#dbdbdb";
+  BACKGROUND: "#fff";
+};
+
+export type ThemeContextProps = {
+  Colors: DARK | LIGHT;
+  onColorModeSwitched: () => void;
+};

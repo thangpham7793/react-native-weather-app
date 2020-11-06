@@ -1,8 +1,8 @@
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import { Picker } from "@react-native-community/picker";
-import { UnitSystem } from "../types";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { ThemeContextProps, UnitSystem } from "../types";
+import { ThemeContext } from "../ThemeContext";
 
 export default function UnitsPicker({
   unitSystem,
@@ -11,13 +11,20 @@ export default function UnitsPicker({
   unitSystem: UnitSystem;
   setUnitSystem: React.Dispatch<React.SetStateAction<UnitSystem>>;
 }) {
+  const { Colors } = React.useContext(ThemeContext) as ThemeContextProps;
+
   return (
     <Picker
       selectedValue={unitSystem}
       style={styles.picker}
       mode={"dropdown"}
       onValueChange={(item) => setUnitSystem(item as UnitSystem)}
-      itemStyle={styles.item}
+      //only works on IOS
+      itemStyle={{
+        ...styles.item,
+        color: Colors.SECONDARY,
+        backgroundColor: Colors.BACKGROUND,
+      }}
     >
       <Picker.Item value={UnitSystem.metric} label={"°C"} />
       <Picker.Item value={UnitSystem.imperial} label={"°F"} />
@@ -34,7 +41,6 @@ const styles = StyleSheet.create({
     }),
   },
   item: {
-    color: Colors.SECONDARY,
     fontSize: 15,
   },
 });

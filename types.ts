@@ -5,6 +5,7 @@ export type Coords = {
 
 export type MainInfo = {
   temp: number;
+  feels_like: number;
 };
 
 export type WeatherInfo = {

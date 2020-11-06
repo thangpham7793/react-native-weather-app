@@ -1,53 +1,54 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { WeatherInfoViewProps, Colors } from "../types";
+import { StyleSheet, Image } from "react-native";
+import { WeatherInfoViewProps } from "../types";
+import AppText from "./AppText";
+import Container from "./Container";
 
 export default function WeatherInfoView(props: WeatherInfoViewProps) {
   const {
     unitSystem,
     weatherInfo: { icon, description },
-    mainInfo: { temp },
+    mainInfo: { temp, feels_like },
     name,
   } = props;
 
   const iconUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
 
   return (
-    <View style={styles.view}>
-      <Text style={{ ...styles.textSecondary }}>{name}</Text>
+    <Container>
+      <AppText
+        content={name}
+        type="secondary"
+        otherTextStyle={{ textTransform: "capitalize" }}
+      />
       <Image source={{ uri: iconUrl }} style={styles.icon} />
-      <Text style={styles.textPrimary}>
-        {temp}
-        {unitSystem === "metric" ? "°C" : "°F"}
-      </Text>
-      <Text style={{ ...styles.description, ...styles.textSecondary }}>
-        {description}
-      </Text>
-    </View>
+
+      <AppText
+        type="secondary"
+        otherTextStyle={{ textTransform: "capitalize" }}
+        content={description}
+      />
+
+      <AppText
+        type="primary"
+        content={`${temp}${unitSystem === "metric" ? "°C" : "°F"}`}
+      />
+
+      <AppText
+        type="secondary"
+        otherTextStyle={{ fontSize: 15 }}
+        content={`Feels Like ${feels_like}${
+          unitSystem === "metric" ? "°C" : "°F"
+        }`}
+      />
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  view: {
-    alignItems: "center",
-    width: "100%",
-  },
-  description: {
-    textTransform: "capitalize",
-  },
   icon: {
     width: 120,
-    height: 120,
+    height: 100,
     resizeMode: "contain",
-  },
-  textPrimary: {
-    fontSize: 40,
-    color: Colors.PRIMARY,
-  },
-  textSecondary: {
-    fontSize: 20,
-    color: Colors.SECONDARY,
-    fontWeight: "500",
-    marginTop: 20,
   },
 });

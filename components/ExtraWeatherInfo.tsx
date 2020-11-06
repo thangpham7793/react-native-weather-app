@@ -1,45 +1,61 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { MainWeatherInfo, WindInfo } from "../types";
+import { MainWeatherInfo, WindInfo, Colors, UnitSystem } from "../types";
+import AppText from "./AppText";
 import Container from "./Container";
+import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 export default function ExtraWeatherInfo({
   windInfo,
   mainWeatherInfo,
+  unitSystem,
 }: {
   windInfo?: WindInfo;
   mainWeatherInfo?: MainWeatherInfo;
+  unitSystem: UnitSystem;
 }) {
   let infos: JSX.Element[] = [];
 
   if (windInfo) {
-    infos = Object.keys(windInfo).map((k) => {
-      return (
-        <Text>
-          {k}: {windInfo[k as keyof WindInfo]}
-        </Text>
-      );
-    });
+    infos = Object.keys(windInfo)
+      .filter((k) => ["speed"].includes(k))
+      .map((k) => {
+        return (
+          <>
+            <Feather name="wind" size={40} color={Colors.PRIMARY} />
+            <AppText
+              type="secondary"
+              otherTextStyle={{
+                textAlign: "center",
+                marginTop: 10,
+              }}
+              content={`${k}: ${windInfo[k as keyof WindInfo]} ${
+                unitSystem === UnitSystem.metric ? "mps" : "mph"
+              }`}
+            />
+          </>
+        );
+      });
   }
 
   if (mainWeatherInfo) {
     infos = Object.keys(mainWeatherInfo)
-      .filter((k) => ["feels_like", "humidity"].includes(k))
+      .filter((k) => ["humidity"].includes(k))
       .map((k) => {
         return (
-          <Text>
-            {k}: {mainWeatherInfo[k as keyof MainWeatherInfo]}
-          </Text>
+          <>
+            <Entypo name="water" size={40} color={Colors.PRIMARY} />
+            <AppText
+              otherTextStyle={{ textAlign: "center", marginTop: 10 }}
+              type="secondary"
+              content={`${k}: ${mainWeatherInfo[k as keyof MainWeatherInfo]}%`}
+            />
+          </>
         );
       });
   }
 
   return infos.length === 0 ? null : (
-    <Container
-      size={6}
-      direction="column"
-      otherViewStyle={{ borderColor: "black", borderWidth: 1 }}
-      children={infos}
-    />
+    <Container size={6} direction="column" children={infos} />
   );
 }

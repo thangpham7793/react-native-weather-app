@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { Picker } from "@react-native-community/picker";
 import { UnitSystem } from "../types";
 import { Colors } from "react-native/Libraries/NewAppScreen";

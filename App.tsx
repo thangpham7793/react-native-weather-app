@@ -1,14 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
 import * as Location from "expo-location";
 import WeatherService from "./WeatherService";
-import { MainWeatherInfo, UnitSystem, WindInfo } from "./types";
+import { UnitSystem, Colors } from "./types";
 import WeatherInfoView from "./components/WeatherInfoView";
 import UnitsPicker from "./components/UnitsPicker";
 import Container from "./components/Container";
 import ExtraWeatherInfo from "./components/ExtraWeatherInfo";
 import ReloadButton from "./components/ReloadButton";
+import AppIcon from "./components/AppIcon";
+import AppText from "./components/AppText";
 
 export default function App() {
   //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
@@ -80,17 +82,34 @@ export default function App() {
           direction="row"
           otherViewStyle={{
             justifyContent: "flex-end",
-            marginRight: 20,
+            marginRight: 30,
           }}
-          children={<ReloadButton reFetchWeatherData={() => load()} />}
+          children={
+            <ReloadButton
+              icon={
+                <AppIcon
+                  name="ios-refresh"
+                  size={20}
+                  color={Colors.SECONDARY}
+                />
+              }
+              reFetchWeatherData={() => load()}
+            />
+          }
         />
       </Container>
       <View style={styles.main}>
         {(!errorMessage && !currentWeather && (
-          <Text>Fetching Weather Data</Text>
+          <>
+            <AppText type="secondary" content="Fetching Weather Data" />
+            <ActivityIndicator
+              size={Platform.OS === "android" ? 40 : "large"}
+              color={Colors.PRIMARY}
+            />
+          </>
         )) ||
           (errorMessage ? (
-            <Text>{errorMessage}</Text>
+            <AppText type="secondary" content={errorMessage} />
           ) : (
             <WeatherInfoView
               unitSystem={unitSystem}
@@ -104,8 +123,14 @@ export default function App() {
         direction="row"
         size={3}
         children={[
-          <ExtraWeatherInfo windInfo={currentWeather?.wind} />,
-          <ExtraWeatherInfo mainWeatherInfo={currentWeather?.main} />,
+          <ExtraWeatherInfo
+            windInfo={currentWeather?.wind}
+            unitSystem={unitSystem}
+          />,
+          <ExtraWeatherInfo
+            mainWeatherInfo={currentWeather?.main}
+            unitSystem={unitSystem}
+          />,
         ]}
       />
     </Container>
@@ -113,11 +138,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   main: {
     flex: 0.7,
     alignItems: "center",

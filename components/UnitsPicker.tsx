@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { Picker } from "@react-native-community/picker";
 import { UnitSystem } from "../types";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
   picker: {
     width: 100,
     height: 100,
+    ...Platform.select({
+      ios: { marginBottom: 100 },
+    }),
   },
   item: {
     color: Colors.SECONDARY,

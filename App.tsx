@@ -64,15 +64,8 @@ export default function App() {
           direction="row"
           otherViewStyle={{
             justifyContent: "flex-start",
-            ...Platform.select({
-              ios: {
-                marginTop: -60,
-                marginLeft: 10,
-              },
-              android: {
-                marginLeft: 20,
-              },
-            }),
+            marginLeft: 20,
+            alignItems: "center",
           }}
         >
           <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
@@ -101,7 +94,11 @@ export default function App() {
       <View style={styles.main}>
         {(!errorMessage && !currentWeather && (
           <>
-            <AppText type="secondary" content="Fetching Weather Data" />
+            <AppText
+              type="secondary"
+              content="Fetching Weather Data"
+              otherTextStyle={{ marginBottom: 20 }}
+            />
             <ActivityIndicator
               size={Platform.OS === "android" ? 40 : "large"}
               color={Colors.PRIMARY}
@@ -124,10 +121,12 @@ export default function App() {
         size={3}
         children={[
           <ExtraWeatherInfo
+            key={"wind"}
             windInfo={currentWeather?.wind}
             unitSystem={unitSystem}
           />,
           <ExtraWeatherInfo
+            key={"main"}
             mainWeatherInfo={currentWeather?.main}
             unitSystem={unitSystem}
           />,

@@ -21,7 +21,7 @@ export default function UnitsPicker({
       onValueChange={(item) => setUnitSystem(item as UnitSystem)}
       //only works on IOS
       itemStyle={{
-        ...styles.item,
+        fontSize: 15,
         color: Colors.SECONDARY,
         backgroundColor: Colors.BACKGROUND,
       }}
@@ -39,8 +39,5 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: { marginBottom: 120 },
     }),
-  },
-  item: {
-    fontSize: 15,
   },
 });

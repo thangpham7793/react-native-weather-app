@@ -69,55 +69,60 @@ export default function WeatherApp() {
       }}
     >
       <StatusBar key={"status-bar"} style="auto" />
-      <Container key={"upper-wrapper"} direction="row" size={2}>
-        <Container
-          key={"unit-picker"}
-          size={4}
-          direction="row"
-          otherViewStyle={{
-            justifyContent: "flex-start",
-            marginLeft: 20,
-            alignItems: "center",
-          }}
-          children={
-            <UnitsPicker
-              unitSystem={unitSystem}
-              setUnitSystem={setUnitSystem}
-            />
-          }
-        />
+      {!errorMessage && currentWeather && (
+        <Container key={"upper-wrapper"} direction="row" size={2}>
+          <Container
+            key={"unit-picker"}
+            size={4}
+            direction="row"
+            otherViewStyle={{
+              justifyContent: "flex-start",
+              marginLeft: 20,
+              alignItems: "center",
+            }}
+            children={
+              <UnitsPicker
+                unitSystem={unitSystem}
+                setUnitSystem={setUnitSystem}
+              />
+            }
+          />
 
-        <Container
-          key={"reload-button"}
-          size={4}
-          direction="row"
-          otherViewStyle={{ marginLeft: 20 }}
-          children={
-            <BaseIconButton
-              icon={
-                <AppIcon
-                  name="ios-refresh"
-                  size={24}
-                  color={Colors.SECONDARY}
-                />
-              }
-              onPress={() => load()}
-            />
-          }
-        />
-        <Container
-          key={"switch-color-mode"}
-          size={4}
-          direction="row"
-          otherViewStyle={{ marginLeft: 20 }}
-          children={
-            <BaseIconButton
-              icon={<Entypo name="switch" size={24} color={Colors.SECONDARY} />}
-              onPress={onColorModeSwitched}
-            />
-          }
-        />
-      </Container>
+          <Container
+            key={"reload-button"}
+            size={4}
+            direction="row"
+            otherViewStyle={{ marginLeft: 20 }}
+            children={
+              <BaseIconButton
+                icon={
+                  <AppIcon
+                    name="ios-refresh"
+                    size={24}
+                    color={Colors.SECONDARY}
+                  />
+                }
+                onPress={() => load()}
+              />
+            }
+          />
+          <Container
+            key={"switch-color-mode"}
+            size={4}
+            direction="row"
+            otherViewStyle={{ marginLeft: 20 }}
+            children={
+              <BaseIconButton
+                icon={
+                  <Entypo name="switch" size={24} color={Colors.SECONDARY} />
+                }
+                onPress={onColorModeSwitched}
+              />
+            }
+          />
+        </Container>
+      )}
+
       <Container key="main-content" size={7}>
         {(!errorMessage && !currentWeather && (
           <>

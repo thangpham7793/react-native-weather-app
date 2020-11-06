@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { MainWeatherInfo, WindInfo, Colors, UnitSystem } from "../types";
 import AppText from "./AppText";
 import Container from "./Container";
@@ -22,7 +22,7 @@ export default function ExtraWeatherInfo({
       .filter((k) => ["speed"].includes(k))
       .map((k) => {
         return (
-          <>
+          <Fragment key={k}>
             <Feather name="wind" size={40} color={Colors.PRIMARY} />
             <AppText
               type="secondary"
@@ -35,7 +35,7 @@ export default function ExtraWeatherInfo({
                 unitSystem
               )} ${unitSystem === UnitSystem.metric ? "mps" : "mph"}`}
             />
-          </>
+          </Fragment>
         );
       });
   }
@@ -45,19 +45,24 @@ export default function ExtraWeatherInfo({
       .filter((k) => ["humidity"].includes(k))
       .map((k) => {
         return (
-          <>
+          <Fragment key={k}>
             <Entypo name="water" size={40} color={Colors.PRIMARY} />
             <AppText
               otherTextStyle={{ textAlign: "center", marginTop: 10 }}
               type="secondary"
               content={`${k}: ${mainWeatherInfo[k as keyof MainWeatherInfo]}%`}
             />
-          </>
+          </Fragment>
         );
       });
   }
 
   return infos.length === 0 ? null : (
-    <Container size={6} direction="column" children={infos} />
+    <Container
+      size={6}
+      direction="column"
+      children={infos}
+      otherViewStyle={{ backgroundColor: Colors.BACKGROUND }}
+    />
   );
 }

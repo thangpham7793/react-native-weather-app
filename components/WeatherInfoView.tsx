@@ -19,9 +19,10 @@ export default function WeatherInfoView(props: WeatherInfoViewProps) {
     <Container>
       <AppText
         content={name}
-        type="secondary"
-        otherTextStyle={{ textTransform: "capitalize" }}
+        type="primary"
+        otherTextStyle={{ textTransform: "uppercase" }}
       />
+
       <Image source={{ uri: iconUrl }} style={styles.icon} />
 
       <AppText
@@ -32,6 +33,7 @@ export default function WeatherInfoView(props: WeatherInfoViewProps) {
 
       <AppText
         type="primary"
+        otherTextStyle={{ marginTop: 20 }}
         content={`${utils.processTemp(temp, unitSystem)}${
           unitSystem === "metric" ? "°C" : "°F"
         }`}

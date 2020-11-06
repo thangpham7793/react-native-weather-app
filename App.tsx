@@ -40,7 +40,7 @@ export default function App() {
         );
 
         if (result) {
-          console.log(result);
+          //console.log(result);
           return setCurrentWeather(result);
         } else {
           setErrorMessage(`Service Unavailable`);
@@ -57,9 +57,10 @@ export default function App() {
 
   return (
     <Container size={12}>
-      <StatusBar style="auto" />
-      <Container direction="row" size={2}>
+      <StatusBar key={"status-bar"} style="auto" />
+      <Container key={"upper-wrapper"} direction="row" size={2}>
         <Container
+          key={"unit-picker"}
           size={6}
           direction="row"
           otherViewStyle={{
@@ -67,10 +68,16 @@ export default function App() {
             marginLeft: 20,
             alignItems: "center",
           }}
-        >
-          <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
-        </Container>
+          children={
+            <UnitsPicker
+              unitSystem={unitSystem}
+              setUnitSystem={setUnitSystem}
+            />
+          }
+        />
+
         <Container
+          key={"reload-button"}
           size={6}
           direction="row"
           otherViewStyle={{
@@ -91,7 +98,7 @@ export default function App() {
           }
         />
       </Container>
-      <Container size={7}>
+      <Container key="main-content" size={7}>
         {(!errorMessage && !currentWeather && (
           <>
             <AppText
@@ -117,6 +124,7 @@ export default function App() {
           ))}
       </Container>
       <Container
+        key="extra-info-wrapper"
         direction="row"
         size={3}
         children={[

@@ -41,4 +41,5 @@ export enum Colors {
   "PRIMARY" = "#ff304f",
   "SECONDARY" = "#002651",
   "BORDER" = "#dbdbdb",
+  "BACKGROUND" = "#fff",
 }

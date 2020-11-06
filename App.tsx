@@ -1,11 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import * as Location from "expo-location";
 import WeatherService from "./WeatherService";
-import { UnitSystem } from "./types";
+import { MainWeatherInfo, UnitSystem, WindInfo } from "./types";
 import WeatherInfoView from "./components/WeatherInfoView";
 import UnitsPicker from "./components/UnitsPicker";
+import Container from "./components/Container";
+import ExtraWeatherInfo from "./components/ExtraWeatherInfo";
+import ReloadButton from "./components/ReloadButton";
 
 export default function App() {
   //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
@@ -51,9 +54,37 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <Container size={12}>
       <StatusBar style="auto" />
-      <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
+      <Container direction="row" size={2}>
+        <Container
+          size={6}
+          direction="row"
+          otherViewStyle={{
+            justifyContent: "flex-start",
+            ...Platform.select({
+              ios: {
+                marginTop: -60,
+                marginLeft: 10,
+              },
+              android: {
+                marginLeft: 20,
+              },
+            }),
+          }}
+        >
+          <UnitsPicker unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
+        </Container>
+        <Container
+          size={6}
+          direction="row"
+          otherViewStyle={{
+            justifyContent: "flex-end",
+            marginRight: 20,
+          }}
+          children={<ReloadButton reFetchWeatherData={() => load()} />}
+        />
+      </Container>
       <View style={styles.main}>
         {(!errorMessage && !currentWeather && (
           <Text>Fetching Weather Data</Text>
@@ -61,17 +92,23 @@ export default function App() {
           (errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : (
-            <>
-              <WeatherInfoView
-                unitSystem={unitSystem}
-                weatherInfo={currentWeather.weather[0]}
-                mainInfo={currentWeather.main}
-                name={currentWeather.name}
-              />
-            </>
+            <WeatherInfoView
+              unitSystem={unitSystem}
+              weatherInfo={currentWeather.weather[0]}
+              mainInfo={currentWeather.main}
+              name={currentWeather.name}
+            />
           ))}
       </View>
-    </View>
+      <Container
+        direction="row"
+        size={3}
+        children={[
+          <ExtraWeatherInfo windInfo={currentWeather?.wind} />,
+          <ExtraWeatherInfo mainWeatherInfo={currentWeather?.main} />,
+        ]}
+      />
+    </Container>
   );
 }
 
@@ -82,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   main: {
-    flex: 1,
+    flex: 0.7,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",

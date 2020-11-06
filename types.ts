@@ -21,6 +21,16 @@ export type WeatherInfoViewProps = {
   name: string;
 };
 
+export type WindInfo = {
+  deg: number;
+  speed: number;
+};
+
+export type MainWeatherInfo = {
+  feels_like: number;
+  humidity: number;
+};
+
 export enum UnitSystem {
   "imperial" = "imperial",
   "metric" = "metric",

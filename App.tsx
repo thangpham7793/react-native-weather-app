@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Platform } from "react-native";
 import * as Location from "expo-location";
 import WeatherService from "./WeatherService";
 import { UnitSystem, Colors } from "./types";
@@ -91,7 +91,7 @@ export default function App() {
           }
         />
       </Container>
-      <View style={styles.main}>
+      <Container size={7}>
         {(!errorMessage && !currentWeather && (
           <>
             <AppText
@@ -115,7 +115,7 @@ export default function App() {
               name={currentWeather.name}
             />
           ))}
-      </View>
+      </Container>
       <Container
         direction="row"
         size={3}
@@ -135,12 +135,3 @@ export default function App() {
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 0.7,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-});

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
-import { WeatherInfoViewProps } from "../types";
+import { Colors, WeatherInfoViewProps } from "../types";
 import AppText from "./AppText";
 import Container from "./Container";
 
@@ -47,8 +47,8 @@ export default function WeatherInfoView(props: WeatherInfoViewProps) {
 
 const styles = StyleSheet.create({
   icon: {
-    width: 120,
-    height: 100,
+    width: 150,
+    height: 150,
     resizeMode: "contain",
   },
 });

@@ -21,7 +21,7 @@ export default function App() {
   //similar to onInit in Angular
   useEffect(() => {
     load();
-  }, [unitSystem]);
+  }, []);
 
   async function load() {
     setCurrentWeather(null);

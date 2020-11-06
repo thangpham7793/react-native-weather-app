@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
-import { Colors, WeatherInfoViewProps } from "../types";
+import { WeatherInfoViewProps } from "../types";
+import utils from "../utils";
 import AppText from "./AppText";
 import Container from "./Container";
 
@@ -31,13 +32,15 @@ export default function WeatherInfoView(props: WeatherInfoViewProps) {
 
       <AppText
         type="primary"
-        content={`${temp}${unitSystem === "metric" ? "°C" : "°F"}`}
+        content={`${utils.processTemp(temp, unitSystem)}${
+          unitSystem === "metric" ? "°C" : "°F"
+        }`}
       />
 
       <AppText
         type="secondary"
         otherTextStyle={{ fontSize: 15 }}
-        content={`Feels Like ${feels_like}${
+        content={`Feels Like ${utils.processTemp(feels_like, unitSystem)}${
           unitSystem === "metric" ? "°C" : "°F"
         }`}
       />

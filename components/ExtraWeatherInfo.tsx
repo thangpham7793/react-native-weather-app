@@ -4,6 +4,7 @@ import AppText from "./AppText";
 import Container from "./Container";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import utils from "../utils";
 
 export default function ExtraWeatherInfo({
   windInfo,
@@ -29,9 +30,10 @@ export default function ExtraWeatherInfo({
                 textAlign: "center",
                 marginTop: 10,
               }}
-              content={`${k}: ${windInfo[k as keyof WindInfo]} ${
-                unitSystem === UnitSystem.metric ? "mps" : "mph"
-              }`}
+              content={`${k}: ${utils.processSpeed(
+                windInfo[k as keyof WindInfo],
+                unitSystem
+              )} ${unitSystem === UnitSystem.metric ? "mps" : "mph"}`}
             />
           </>
         );

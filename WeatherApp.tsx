@@ -8,10 +8,11 @@ import WeatherInfoView from "./components/WeatherInfoView";
 import UnitsPicker from "./components/UnitsPicker";
 import Container from "./components/Container";
 import ExtraWeatherInfo from "./components/ExtraWeatherInfo";
-import ReloadButton from "./components/ReloadButton";
 import AppIcon from "./components/AppIcon";
 import AppText from "./components/AppText";
 import { ThemeContext } from "./ThemeContext";
+import BaseIconButton from "./components/BaseIconButton";
+import { Entypo } from "@expo/vector-icons";
 
 export default function WeatherApp() {
   //https://codewithstyle.info/Using-React-useState-hook-with-TypeScript/
@@ -71,7 +72,7 @@ export default function WeatherApp() {
       <Container key={"upper-wrapper"} direction="row" size={2}>
         <Container
           key={"unit-picker"}
-          size={6}
+          size={4}
           direction="row"
           otherViewStyle={{
             justifyContent: "flex-start",
@@ -88,22 +89,31 @@ export default function WeatherApp() {
 
         <Container
           key={"reload-button"}
-          size={6}
+          size={4}
           direction="row"
-          otherViewStyle={{
-            justifyContent: "flex-end",
-            marginRight: 30,
-          }}
+          otherViewStyle={{ marginLeft: 20 }}
           children={
-            <ReloadButton
+            <BaseIconButton
               icon={
                 <AppIcon
                   name="ios-refresh"
-                  size={20}
+                  size={24}
                   color={Colors.SECONDARY}
                 />
               }
-              reFetchWeatherData={() => load()}
+              onPress={() => load()}
+            />
+          }
+        />
+        <Container
+          key={"switch-color-mode"}
+          size={4}
+          direction="row"
+          otherViewStyle={{ marginLeft: 20 }}
+          children={
+            <BaseIconButton
+              icon={<Entypo name="switch" size={24} color={Colors.SECONDARY} />}
+              onPress={onColorModeSwitched}
             />
           }
         />

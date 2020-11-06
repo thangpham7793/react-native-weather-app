@@ -31,6 +31,7 @@ export default function WeatherApp() {
 
   async function load() {
     setCurrentWeather(null);
+    setErrorMessage(null);
     try {
       let { status } = await Location.requestPermissionsAsync();
       if (status === "granted") {
@@ -125,7 +126,7 @@ export default function WeatherApp() {
 
       <Container key="main-content" size={7}>
         {(!errorMessage && !currentWeather && (
-          <>
+          <Container>
             <AppText
               type="secondary"
               content="Fetching Weather Data"
@@ -135,10 +136,26 @@ export default function WeatherApp() {
               size={Platform.OS === "android" ? 40 : "large"}
               color={Colors.PRIMARY}
             />
-          </>
+          </Container>
         )) ||
           (errorMessage ? (
-            <AppText type="secondary" content={errorMessage} />
+            <Container>
+              <AppText
+                type="secondary"
+                content={errorMessage}
+                otherTextStyle={{ marginBottom: 20 }}
+              />
+              <BaseIconButton
+                icon={
+                  <AppIcon
+                    name="ios-refresh"
+                    size={24}
+                    color={Colors.SECONDARY}
+                  />
+                }
+                onPress={() => load()}
+              />
+            </Container>
           ) : (
             <WeatherInfoView
               unitSystem={unitSystem}
